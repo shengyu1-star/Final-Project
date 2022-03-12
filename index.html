@@ -1,0 +1,1679 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <style>
+        .y .tick text {
+            font-size: 14px;
+            fill: #333;
+        }
+
+        .x .tick text {
+            font-size: 14px;
+            fill: #333;
+        }
+
+        .subtitle {
+            margin: 50px 50px 50px 0px;
+            font-weight: 800;
+            font-size: 32px;
+        }
+
+
+        .x .tick line {
+            stroke: rgba(0, 0, 0, .2);
+        }
+
+        .y .tick line {
+            stroke: rgba(0, 0, 0, .2);
+        }
+
+        .x .domain {
+            display: none;
+        }
+
+        .y .domain {
+            display: none;
+        }
+
+        .blank {
+            margin: 50px 50px 50px 0px;
+            color: #ffffff;
+        }
+
+        .chart-container {
+            max-width: 1050px;
+            border: 3px solid red;
+            margin: 0 auto;
+            /* auto centers the div */
+            font-family: 'Franklin Gothic Medium', Arial, sans-serif;
+
+        }
+
+        .racelabel {
+            font-family: 'Franklin Gothic Medium', Arial, sans-serif;
+
+        }
+
+        .racelabel2 {
+            font-family: 'Franklin Gothic Medium', Arial, sans-serif;
+
+        }
+
+        .sexlabel1 {
+            font-family: 'Franklin Gothic Medium', Arial, sans-serif;
+
+        }
+
+        .sexlabel2 {
+            font-family: 'Franklin Gothic Medium', Arial, sans-serif;
+
+        }
+
+        .ylabel {
+            font-weight: 800;
+            fill: #333;
+            font-family: sans-serif;
+        }
+
+        .xlabel {
+            /* font-weight: 800; */
+            font-size: 14px;
+            fill: #333;
+            font-family: sans-serif;
+        }
+
+        .annotation1 {
+            font-size: 17px;
+            fill: rgb(128, 123, 123);
+            font-family: sans-serif;
+            font-weight: 800;
+        }
+
+        .annotation2 {
+            font-size: 15px;
+            fill: rgb(92, 88, 88);
+            font-family: sans-serif;
+            font-weight: 800;
+        }
+
+        .annotation3 {
+            font-size: 15px;
+            fill: rgb(92, 88, 88);
+            font-family: sans-serif;
+            font-weight: 800;
+        }
+
+        .annotation4 {
+            font-size: 15px;
+            fill: rgb(92, 88, 88);
+            font-family: sans-serif;
+            font-weight: 800;
+        }
+
+
+
+        .label {
+            z-index: -1;
+
+        }
+
+        .filler p.source {
+            font-size: 18px;
+            font-weight: 200;
+            color: rgb(158, 157, 154);
+            max-width: 550px;
+            text-anchor: left;
+            margin: auto;
+            text-align: justify;
+        }
+
+        .highlight2 {
+            font-weight: 600;
+            color: black;
+        }
+
+        .axis-label {
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-family: 'Arial Narrow';
+        }
+
+        svg {
+            width: 956px;
+            height: 500px;
+            /* border: 2px solid purple; */
+            overflow: visible;
+        }
+
+        .legends {
+            font-size: 13px;
+        }
+
+
+        h1 {
+            /* border: 2px solid green; */
+            font-size: 50px;
+        }
+
+        .filler {
+            height: 10rem;
+            text-align: center;
+        }
+
+        .filler h2 {
+            font-family: 'Franklin Gothic Medium', Arial, sans-serif;
+            font-size: 40px;
+        }
+
+
+        .filler p {
+            font-family: 'Franklin Gothic Medium', Arial, sans-serif;
+            font-size: 24px;
+            text-align: left;
+            margin: 20px auto;
+            line-height: 1.2;
+            max-width: 600px
+        }
+
+        .firstsvg svg {
+            margin: 3rem auto;
+            max-width: 60rem;
+        }
+
+        .pop-up {
+            position: absolute;
+            text-align: center;
+            padding: .5rem;
+            background: #FFFFFF;
+            color: #313639;
+            border: 1px solid #313639;
+            border-radius: 8px;
+            pointer-events: none;
+            font-size: 17px;
+            width: 300px;
+            font-family: sans-serif;
+        }
+
+        .pop-up2 {
+            position: absolute;
+            text-align: center;
+            padding: .5rem;
+            background: #FFFFFF;
+            color: #313639;
+            border: 1px solid #313639;
+            border-radius: 8px;
+            pointer-events: none;
+            font-size: 17px;
+            width: 300px;
+            font-family: sans-serif;
+        }
+
+        #scrolly-overlay .scrolly {
+            font-family: 'Franklin Gothic Medium', Arial, sans-serif;
+            font-size: 24px;
+            max-width: 60rem;
+            margin: 3rem auto;
+            background-color: #ffffff;
+            padding: 1rem;
+            position: relative;
+
+        }
+
+        #scrolly-overlay .scrolly article {
+            padding: 0;
+            max-width: 30rem;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        #scrolly-overlay .scrolly article .step {
+            min-height: 67vh;
+            margin-bottom: 1rem;
+            margin-left: -10rem;
+            width: 700px;
+
+        }
+
+        #scrolly-overlay .scrolly article .step:last-of-type {
+            margin-bottom: 0;
+        }
+
+        #scrolly-overlay .scrolly article .step.is-active p {
+            background-color: #008080;
+        }
+
+        #scrolly-overlay .scrolly article .step p {
+            margin: 0;
+            padding: 1rem;
+            text-align: center;
+            font-weight: 400;
+            background-color: #a8a3a3;
+            transition: background-color 250ms ease-in-out;
+            color: #ffffff;
+            font-size: 30px;
+        }
+
+        #scrolly-overlay .scrolly figure.sticky {
+            /* this is the key style for the chart */
+            position: sticky;
+            width: 100%;
+            height: 50vh;
+            /* vh is the unit that divdes the viewport in units of 1/100 */
+            /* height is 50 vh = half the height of the viewport */
+            /* background: #969696; */
+            margin: 0;
+            top: 25vh;
+            /* this is how high it should be from top */
+
+            left: 0;
+        }
+
+        /* #scrolly-overlay .scrolly figure.sticky .bar-outer {
+            position: absolute;
+            top: 50%;
+            left: 5%;
+            transform: translateY(-50%);
+            width: 90%;
+            height: 4rem;
+            background-color: #fff;
+        } */
+
+        #scrolly-overlay .scrolly figure.sticky .svg {
+            width: 10%;
+            height: 100%;
+            transition: width 1s ease-in-out;
+            background-color: #daa520;
+        }
+
+        .spacer {
+            height: 1500px;
+        }
+    </style>
+</head>
+
+<body>
+    <section class='filler'>
+
+        <h1>A Year Later, Who Is Back to Work and Who Is Not?</h1>
+
+
+    </section>
+    <p style="text-align:center;" , class="subtitle">
+
+        Number of Workers Before and During the Pandemic
+        <br>(By different races and genders)
+
+
+
+    </p>
+    <div style="text-align:center;" , class="firstsvg">
+        <svg>
+
+
+        </svg>
+        <div class="pop-up">
+        </div>
+
+    </div>
+
+    <div class="blank">
+        <p>
+            blank blank blank blank
+            <br>blank blank blank blank
+            <br>blank blank blank blank
+            <br>blank blank blank blank
+            <br>blank blank blank blank
+        </p>
+
+    </div>
+    <p style="text-align:center;" , class="subtitle">
+
+        Percentage Change of Workers Before and During the Pandemic
+        <br>(By different races and genders)
+
+
+
+    </p>
+
+
+    <section id='scrolly-overlay'>
+
+        <div class='scrolly'>
+
+            <!--  sticky graphic   -->
+            <figure class='sticky'>
+                <!-- put your chart stuff here -->
+                <svg>
+
+                </svg>
+                <div class="pop-up2">
+                </div>
+            </figure>
+
+            <!--  step text   -->
+            <article>
+                <div class='step' by="race" data="grouped_data_race">
+                    <p>Monthly Percentage Change of the Number of Workers by Races</p>
+                </div>
+                <div class='step' by="sex" data="grouped_data_sex">
+                    <p>Monthly Percentage Change of the Number of Workers by Genders</p>
+                </div>
+            </article>
+
+        </div>
+
+    </section>
+
+    <section class='filler'>
+
+        <p class="source">Note: Seasonally adjusted. Hispanic workers may be of any race.</p>
+        <p class="source">Source: Bureau of Labor Statistics</p>
+        <h2>End of scrolling!</h2>
+    </section>
+</body>
+
+<!-- add your script blocks at the end -->
+<script src="https://d3js.org/d3.v6.min.js"></script>
+<script src="https://unpkg.com/enter-view@1.0.0/enter-view.min.js"></script>
+<!-- https://github.com/russellgoldenberg/enter-view -->
+
+
+<script>
+
+
+    let width = 800;
+    let height = 550;
+
+    let svg = d3.select("body").select(".firstsvg")
+        .select("svg")
+
+    d3.csv("by_race.csv").then(function (data_race) {
+        data_race.forEach(function (row) {
+            row.date = new Date(row.date + "T00:00")
+            row.val = +row.val
+        })
+
+        let margin = { top: 30, right: 10, bottom: 10, left: 30 };
+
+        //d3 scales for the x and y axis
+        //domain takes the data we have and maps them into SVG space
+        //in this case we need to use scaleTime because we're dealin time data
+        let x = d3.scaleTime()
+            .domain(d3.extent(data_race.map(function (d) { return d.date }))) //d3 extent
+            .range([margin.left, width - margin.right])
+
+        //in this case we need to use scaleLinear because we're dealin linear data
+        let y = d3.scaleLinear()
+            .domain(d3.extent(data_race.map(function (d) { return d.val })))
+            .range([height - margin.bottom - 10, margin.top])
+
+
+        //define the settings for our axes
+        //https://github.com/d3/d3-axis
+        // https://github.com/d3/d3-time-format
+        //https://github.com/d3/d3-format
+        let yAxisSettings = d3.axisLeft(y) //set axis to the left
+            .ticks(4) //approx how many ticks, the function will not necesarily give you that number
+            .tickSize(-width) //size of tick lines
+            // .tickFormat(d3.format(".0")) //what format do you want https://github.com/d3/d3-format 
+            .tickPadding(10) //distance from tick labels to tick marks
+            .tickValues([10000, 30000, 50000, 70000, 90000, 110000, 130000])
+
+
+
+
+        let xAxisSettings = d3.axisBottom(x)
+            .ticks(5)
+            .tickSize(5)
+            .tickPadding(10)
+            .tickFormat(d3.timeFormat("%b"))
+        // .tickValues([2019, 2020, 2021])
+
+        // let bg = svg.append("rect")
+        //     .attr("x", margin.left)
+        //     .attr("y", 0)
+        //     .attr("width", width)
+        //     .attr("height", height)
+        //     .style("fill", "rgba(0,0,0,.04)")
+
+        //adding to the axes to our chart
+        let xAxisTicks = svg.append("g")
+            .attr("class", "x axis") //give each axis a class
+            .call(xAxisSettings)
+            .attr("transform", `translate(0,${height - margin.bottom})`)
+
+
+        let yAxisTicks = svg.append("g")
+            .attr("class", "y axis")
+            .call(yAxisSettings)
+            .attr("transform", `translate(${margin.left},0)`)
+
+        let line = d3.line() //define a line function
+            .defined(d => !isNaN(d.val))
+            .x(function (d) { return x(d.date) }) //accessing date 
+            .y(function (d) { return y(d.val) }) //accesssing value 
+
+
+
+        let grouped_data_race = d3.group(data_race, d => d.race);
+
+        let races = Array.from(grouped_data_race.keys())
+
+        let line_path1 = svg.append("g")
+            .selectAll(".line")
+            .data(grouped_data_race)
+            .join("path")
+            .attr("class", function (d) {
+                return "line " + d[0]
+            })
+            .attr("d", function (d) {
+                return line(d[1])
+            })
+            .style("fill", "none")
+            .style("stroke", d => {
+                if (d[0] == "hispanic") {
+                    return "#88C542"
+                } else if (d[0] == "asian") {
+                    return "#367ABD"
+                } else if (d[0] == "black") {
+                    return "#EC4A94"
+                } else {
+                    return "#F3A530"
+                }
+            })
+            .style("stroke-width", 3)
+            .style("opacity", .5)
+
+
+
+        let hispanic = svg.append("text")
+            .attr("class", "racelabel")
+            .attr("x", 800)
+            .attr("y", 460)
+            .text("HISPANIC")
+            .style("font-size", 15)
+            .attr("fill", "#88C542")
+
+        let asian = svg.append("text")
+            .attr("class", "racelabel")
+            .attr("x", 800)
+            .attr("y", 530)
+            .text("ASIAN")
+            .style("font-size", 15)
+            .attr("fill", "#367ABD")
+
+        let black = svg.append("text")
+            .attr("class", "racelabel2")
+            .attr("x", 800)
+            .attr("y", 495)
+            .text("BLACK")
+            .style("font-size", 15)
+            .attr("fill", "#EC4A94")
+
+        let white = svg.append("text")
+            .attr("class", "racelabel2")
+            .attr("x", 800)
+            .attr("y", 65)
+            .text("WHITE")
+            .style("font-size", 15)
+            .attr("fill", "#F3A530")
+
+        let male = svg.append("text")
+            .attr("class", "sexlabel1")
+            .attr("x", 800)
+            .attr("y", 180)
+            .text("MALE")
+            .style("font-size", 15)
+            .attr("fill", "#70261A")
+
+        let female = svg.append("text")
+            .attr("class", "sexlabel2")
+            .attr("x", 800)
+            .attr("y", 230)
+            .text("FEMALE")
+            .style("font-size", 15)
+            .attr("fill", "#479983")
+
+        svg.append("text")
+            .attr("class", "ylabel")
+            .attr("x", -50)
+            .attr("y", -30)
+            .text("EMPLOYMENT (in thousands)")
+            .style("font-size", 14)
+
+        svg.append("text")
+            .attr("class", "xlabel")
+            .attr("x", 60)
+            .attr("y", 590)
+            .text("< 2019")
+            .style("font-size", 14)
+
+        svg.append("text")
+            .attr("class", "xlabel")
+            .attr("x", 360)
+            .attr("y", 590)
+            .text("2020")
+            .style("font-size", 14)
+
+        svg.append("text")
+            .attr("class", "xlabel")
+            .attr("x", 740)
+            .attr("y", 590)
+            .text("2021 >")
+            .style("font-size", 14)
+
+        svg.append("text")
+            .attr("class", "annotation1")
+            .attr("x", 610)
+            .attr("y", 30)
+            .text("PANDEMIC")
+
+        svg.append("text")
+            .attr("class", "annotation2")
+            .attr("x", 110)
+            .attr("y", 320)
+            .text("Before Pandemic, the employment")
+
+        svg.append("text")
+            .attr("class", "annotation2")
+            .attr("x", 110)
+            .attr("y", 340)
+            .text("in each group is steady.")
+
+        svg.append("text")
+            .attr("class", "annotation2")
+            .attr("x", 490)
+            .attr("y", 125)
+            .text("Regarding the number, white people")
+
+        svg.append("text")
+            .attr("class", "annotation2")
+            .attr("x", 490)
+            .attr("y", 150)
+            .text("suffered from most severe job losses.")
+
+        let popup = d3.select(".pop-up")
+
+        hispanic.on("mouseover", (event, d) => {
+
+            hispanic
+                .style("font-size", 30)
+                .style("font-weight", 800)
+
+            let lang = "After one year, the employment of the Hispanic was 1.8 million less than before the pandemic."
+
+            popup
+                .style("opacity", 1)
+                .style("left", (event.x - 80) + "px")
+                .style("top", (event.y + 50) + "px")
+                .html(lang)
+
+            svg.selectAll(".hispanic")
+                .style("stroke-width", 6)
+                .style("opacity", 1)
+        })
+
+        hispanic.on("mouseout", (event, d) => {
+            hispanic
+                .style("font-size", 15)
+                .style("font-weight", 400)
+
+            svg.selectAll(".hispanic")
+                .style("stroke-width", 3)
+                .style("opacity", .5)
+
+            popup
+                .style("opacity", 0)
+        })
+
+        black.on("mouseover", (event, d) => {
+
+            black
+                .style("font-size", 30)
+                .style("font-weight", 800)
+
+            let lang = "After one year, the employment of the Black was 1.5 million less than before the pandemic."
+
+            popup
+                .style("opacity", 1)
+                .style("left", (event.x - 80) + "px")
+                .style("top", (event.y + 50) + "px")
+                .html(lang)
+
+            svg.selectAll(".black")
+                .style("stroke-width", 6)
+                .style("opacity", 1)
+        })
+
+        black.on("mouseout", (event, d) => {
+            black
+                .style("font-size", 15)
+                .style("font-weight", 400)
+
+            popup
+                .style("opacity", 0)
+
+            svg.selectAll(".black")
+                .style("stroke-width", 3)
+                .style("opacity", .5)
+        })
+
+        asian.on("mouseover", (event, d) => {
+
+            asian
+                .style("font-size", 30)
+                .style("font-weight", 800)
+
+            let lang = "After one year, the employment of Asians was 0.5 million less than before the pandemic."
+
+            popup
+                .style("opacity", 1)
+                .style("left", (event.x - 80) + "px")
+                .style("top", (event.y + 50) + "px")
+                .html(lang)
+
+            svg.selectAll(".asian")
+                .style("stroke-width", 6)
+                .style("opacity", 1)
+        })
+
+        asian.on("mouseout", (event, d) => {
+            asian
+                .style("font-size", 15)
+                .style("font-weight", 400)
+
+            popup
+                .style("opacity", 0)
+
+            svg.selectAll(".asian")
+                .style("stroke-width", 3)
+                .style("opacity", .5)
+        })
+
+        white.on("mouseover", (event, d) => {
+
+            white
+                .style("font-size", 30)
+                .style("font-weight", 800)
+
+            let lang = "After one year, the employment of the White was 6.3 million less than before the pandemic."
+
+            popup
+                .style("opacity", 1)
+                .style("left", (event.x - 80) + "px")
+                .style("top", (event.y + 50) + "px")
+                .html(lang)
+
+            svg.selectAll(".white")
+                .style("stroke-width", 6)
+                .style("opacity", 1)
+
+
+        })
+
+        white.on("mouseout", (event, d) => {
+            white
+                .style("font-size", 15)
+                .style("font-weight", 400)
+
+            popup
+                .style("opacity", 0)
+
+            svg.selectAll(".white")
+                .style("stroke-width", 3)
+                .style("opacity", .5)
+        })
+
+        male.on("mouseover", (event, d) => {
+
+            male
+                .style("font-size", 30)
+                .style("font-weight", 800)
+
+            let lang = "After one year, the employment of the male was 6 million less than before the pandemic."
+
+            popup
+                .style("opacity", 1)
+                .style("left", (event.x - 80) + "px")
+                .style("top", (event.y + 50) + "px")
+                .html(lang)
+
+            svg.selectAll(".men")
+                .style("stroke-width", 6)
+                .style("opacity", 1)
+        })
+
+        male.on("mouseout", (event, d) => {
+            male
+                .style("font-size", 15)
+                .style("font-weight", 400)
+
+            popup
+                .style("opacity", 0)
+
+            svg.selectAll(".men")
+                .style("stroke-width", 3)
+                .style("opacity", .5)
+        })
+
+        female.on("mouseover", (event, d) => {
+
+            female
+                .style("font-size", 30)
+                .style("font-weight", 800)
+
+            let lang = "After one year, the employment of the female was 4.1 million less than before the pandemic."
+
+            popup
+                .style("opacity", 1)
+                .style("left", (event.x - 80) + "px")
+                .style("top", (event.y + 50) + "px")
+                .html(lang)
+
+            svg.selectAll(".women")
+                .style("stroke-width", 6)
+                .style("opacity", 1)
+        })
+
+        female.on("mouseout", (event, d) => {
+            female
+                .style("font-size", 15)
+                .style("font-weight", 400)
+
+            popup
+                .style("opacity", 0)
+
+            svg.selectAll(".women")
+                .style("stroke-width", 3)
+                .style("opacity", .5)
+        })
+
+
+
+    })
+
+    // let svg2 = d3.select("body").select(".secondsvg")
+    //     .select("svg")
+
+    d3.csv("by_sex.csv").then(function (data_sex) {
+        data_sex.forEach(function (row) {
+            row.date = new Date(row.date + "T00:00")
+            row.val = +row.val
+        })
+
+        let margin = { top: 30, right: 10, bottom: 10, left: 30 };
+
+        //d3 scales for the x and y axis
+        //domain takes the data we have and maps them into SVG space
+        //in this case we need to use scaleTime because we're dealin time data
+        let x = d3.scaleTime()
+            .domain(d3.extent(data_sex.map(function (d) { return d.date }))) //d3 extent
+            .range([margin.left, width - margin.right])
+
+        //in this case we need to use scaleLinear because we're dealin linear data
+        let y = d3.scaleLinear()
+            .domain([8462, 123402])
+            .range([height - margin.bottom - 10, margin.top])
+
+        let line = d3.line() //define a line function
+            .defined(d => !isNaN(d.val))
+            .x(function (d) { return x(d.date) }) //accessing date 
+            .y(function (d) { return y(d.val) }) //accesssing value 
+
+
+
+        let grouped_data_sex = d3.group(data_sex, d => d.sex);
+
+
+
+        let sex = Array.from(grouped_data_sex.keys())
+
+        let line_path = svg.append("g")
+            .selectAll(".line")
+            .data(grouped_data_sex)
+            .join("path")
+            .attr("class", function (d) {
+                return "line " + d[0]
+            })
+            .attr("d", function (d) {
+                return line(d[1])
+            })
+            .style("fill", "none")
+            .style("stroke", d => {
+                if (d[0] == "men") {
+                    return "#70261A"
+                } else {
+                    return "#479983"
+                }
+            })
+            .style("stroke-width", 3)
+            .style("stroke-dasharray", (5, 5))
+            .style("opacity", .5)
+
+        // let line_apr = svg.append("line")
+        // .attr("x1", 472)
+        // .attr("x2", 472)
+        // .attr("y1", 0)
+        // .attr("y2", height - margin.bottom)
+        // .style("stroke", "#666")
+        // .style("stroke-width", "2px")
+
+        let bg = svg.append("rect")
+            .attr("x", 472)
+            .attr("y", 0)
+            .attr("width", width - 442)
+            .attr("height", height - 10)
+            .style("fill", "rgba(0,0,0,.06)")
+
+
+
+    })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // scrolly
+
+    let svg3 = d3.select("body").select(".scrolly")
+        .select("svg")
+
+    d3.csv("by_race.csv").then(function (data_race) {
+        data_race.forEach(function (row) {
+            row.date = new Date(row.date + "T00:00")
+            row.pct_change = +row.pct_change
+        })
+        d3.csv("by_sex.csv").then(function (data_sex) {
+            data_sex.forEach(function (row) {
+                row.date = new Date(row.date + "T00:00")
+                row.pct_change = +row.pct_change
+            })
+
+            let margin = { top: 30, right: 10, bottom: 10, left: 30 };
+
+            let x = d3.scaleTime()
+                .domain(d3.extent(data_race.map(function (d) { return d.date }))) //d3 extent
+                .range([margin.left, width - margin.right])
+
+            let y = d3.scaleLinear()
+                .domain(d3.extent(data_race.map(function (d) { return d.pct_change })))
+                .range([height - margin.bottom - 10, margin.top])
+
+            let yAxisSettings = d3.axisLeft(y) //set axis to the left
+                .ticks(4) //approx how many ticks, the function will not necesarily give you that number
+                .tickSize(-width) //size of tick lines
+                // .tickFormat(d3.format("+.0%"))
+                .tickFormat(function (d) { return parseInt(d, 10) + "%"; })
+                .tickPadding(10) //distance from tick labels to tick marks
+            // .tickValues([70000, 80000, 90000, 100000])
+
+            let xAxisSettings = d3.axisBottom(x)
+                .ticks(5)
+                .tickSize(5)
+                .tickPadding(10)
+                .tickFormat(d3.timeFormat("%b"))
+            // .tickValues([2019, 2020, 2021])
+
+            let xAxisTicks = svg3.append("g")
+                .attr("class", "x axis") //give each axis a class
+                .call(xAxisSettings)
+                .attr("transform", `translate(0,525)`)
+
+            let yAxisTicks = svg3.append("g")
+                .attr("class", "y axis")
+                .call(yAxisSettings)
+                .attr("transform", `translate(${margin.left},0)`)
+
+            let line = d3.line() //define a line function
+                .defined(d => !isNaN(d.pct_change))
+                .x(function (d) { return x(d.date) }) //accessing date 
+                .y(function (d) { return y(d.pct_change) }) //accesssing value 
+
+            let grouped_data_race = d3.group(data_race, d => d.race);
+            let grouped_data_sex = d3.group(data_sex, d => d.sex);
+
+            let line_path = svg3.append("g")
+                .selectAll(".line")
+                .data(grouped_data_race)
+                .join("path")
+                .attr("class", function (d) {
+                    return "line " + d[0]
+                })
+                .attr("d", function (d) {
+                    return line(d[1])
+                })
+                .style("fill", "none")
+                .style("stroke", d => {
+                    if (d[0] == "hispanic") {
+                        return "#88C542"
+                    } else if (d[0] == "asian") {
+                        return "#367ABD"
+                    } else if (d[0] == "black") {
+                        return "#EC4A94"
+                    } else {
+                        return "#F3A530"
+                    }
+                })
+                .style("stroke-width", 3)
+                .style("opacity", 0.5)
+
+            // labelsrace
+            let hispanic = svg3.append("text")
+                .attr("class", "racelabel")
+                .attr("x", 800)
+                .attr("y", 120)
+                .text("HISPANIC")
+                .style("font-size", 15)
+                .attr("fill", "#88C542")
+
+            let asian = svg3.append("text")
+                .attr("class", "racelabel")
+                .attr("x", 800)
+                .attr("y", 80)
+                .text("ASIAN")
+                .style("font-size", 15)
+                .attr("fill", "#367ABD")
+
+            let black = svg3.append("text")
+                .attr("class", "racelabel2")
+                .attr("x", 800)
+                .attr("y", 200)
+                .text("BLACK")
+                .style("font-size", 15)
+                .attr("fill", "#EC4A94")
+
+            let white = svg3.append("text")
+                .attr("class", "racelabel2")
+                .attr("x", 800)
+                .attr("y", 155)
+                .text("WHITE")
+                .style("font-size", 15)
+                .attr("fill", "#F3A530")
+
+            svg3.append("text")
+                .attr("class", "ylabel")
+                .attr("x", -75)
+                .attr("y", 10)
+                .text("PERCENTAGE CHANGE")
+                .style("font-size", 14)
+
+            svg3.append("text")
+                .attr("class", "ylabel")
+                .attr("x", -60)
+                .attr("y", 30)
+                .text("OF EMPLOYMENT")
+                .style("font-size", 14)
+
+            svg3.append("text")
+                .attr("class", "xlabel")
+                .attr("x", 60)
+                .attr("y", 580)
+                .text("< 2019")
+                .style("font-size", 14)
+
+            svg3.append("text")
+                .attr("class", "xlabel")
+                .attr("x", 360)
+                .attr("y", 580)
+                .text("2020")
+                .style("font-size", 14)
+
+            svg3.append("text")
+                .attr("class", "xlabel")
+                .attr("x", 740)
+                .attr("y", 580)
+                .text("2021 >")
+                .style("font-size", 14)
+
+            let popup = d3.select(".pop-up2")
+
+            hispanic.on("mouseover", (event, d) => {
+
+                hispanic
+                    .style("font-size", 30)
+                    .style("font-weight", 800)
+
+                let lang = "In April 2020, the Hispanic suffered from an extreme job loss of 17.82%"
+
+                popup
+                    .style("opacity", 1)
+                    .style("left", (event.x - 500) + "px")
+                    .style("top", (event.y - 400) + "px")
+                    .html(lang)
+
+                svg3.append('circle')
+                    .attr("class", "circle")
+                    .attr('cx', 472)
+                    .attr('cy', 525)
+                    .attr('r', '6px')
+                    .style('fill', '#88C542');
+
+                svg3.selectAll(".hispanic")
+                    .style("stroke-width", 6)
+                    .style("opacity", 1)
+            })
+
+            hispanic.on("mouseout", (event, d) => {
+                hispanic
+                    .style("font-size", 15)
+                    .style("font-weight", 400)
+
+                popup
+                    .style("opacity", 0)
+
+                svg3.selectAll(".circle")
+                    .style("opacity", 0)
+
+                svg3.selectAll(".hispanic")
+                    .style("stroke-width", 3)
+                    .style("opacity", .5)
+            })
+
+            black.on("mouseover", (event, d) => {
+
+                black
+                    .style("font-size", 30)
+                    .style("font-weight", 800)
+
+                let lang = "In April 2020, the Black suffered from an extreme job loss of 14.57%"
+
+                popup
+                    .style("opacity", 1)
+                    .style("left", (event.x - 500) + "px")
+                    .style("top", (event.y - 400) + "px")
+                    .html(lang)
+
+                svg3.append('circle')
+                    .attr("class", "circle")
+                    .attr('cx', 472)
+                    .attr('cy', 460)
+                    .attr('r', '6px')
+                    .style('fill', '#EC4A94');
+
+                svg3.selectAll(".black")
+                    .style("stroke-width", 6)
+                    .style("opacity", 1)
+            })
+
+            black.on("mouseout", (event, d) => {
+                black
+                    .style("font-size", 15)
+                    .style("font-weight", 400)
+
+                popup
+                    .style("opacity", 0)
+
+                svg3.selectAll(".circle")
+                    .style("opacity", 0)
+
+                svg3.selectAll(".black")
+                    .style("stroke-width", 3)
+                    .style("opacity", .5)
+            })
+
+            asian.on("mouseover", (event, d) => {
+
+                asian
+                    .style("font-size", 30)
+                    .style("font-weight", 800)
+
+                let lang = "In April 2020, the Asian suffered from an extreme job loss of 15.73%"
+
+                popup
+                    .style("opacity", 1)
+                    .style("left", (event.x - 500) + "px")
+                    .style("top", (event.y - 400) + "px")
+                    .html(lang)
+
+                svg3.append('circle')
+                    .attr("class", "circle")
+                    .attr('cx', 472)
+                    .attr('cy', 490)
+                    .attr('r', '6px')
+                    .style('fill', '#367ABD');
+
+                svg3.selectAll(".asian")
+                    .style("stroke-width", 6)
+                    .style("opacity", 1)
+            })
+
+            asian.on("mouseout", (event, d) => {
+                asian
+                    .style("font-size", 15)
+                    .style("font-weight", 400)
+
+                popup
+                    .style("opacity", 0)
+
+                svg3.selectAll(".circle")
+                    .style("opacity", 0)
+
+                svg3.selectAll(".asian")
+                    .style("stroke-width", 3)
+                    .style("opacity", .5)
+            })
+
+            white.on("mouseover", (event, d) => {
+
+                white
+                    .style("font-size", 30)
+                    .style("font-weight", 800)
+
+                let lang = "In April 2020, the White suffered from an extreme job loss of 13.74%"
+
+                popup
+                    .style("opacity", 1)
+                    .style("left", (event.x - 500) + "px")
+                    .style("top", (event.y - 400) + "px")
+                    .html(lang)
+
+                svg3.append('circle')
+                    .attr("class", "circle")
+                    .attr('cx', 472)
+                    .attr('cy', 450)
+                    .attr('r', '6px')
+                    .style('fill', '#F3A530');
+
+                svg3.selectAll(".white")
+                    .style("stroke-width", 6)
+                    .style("opacity", 1)
+            })
+
+            white.on("mouseout", (event, d) => {
+                white
+                    .style("font-size", 15)
+                    .style("font-weight", 400)
+
+                popup
+                    .style("opacity", 0)
+
+                svg3.selectAll(".circle")
+                    .style("opacity", 0)
+
+                svg3.selectAll(".white")
+                    .style("stroke-width", 3)
+                    .style("opacity", .5)
+            })
+
+            svg3.append("text")
+                .attr("class", "annotation3")
+                .attr("x", 80)
+                .attr("y", 240)
+                .text("When we look at the percentage change")
+
+            svg3.append("text")
+                .attr("class", "annotation3")
+                .attr("x", 80)
+                .attr("y", 260)
+                .text("of employment, a different story shows up.")
+
+            svg3.append("text")
+                .attr("class", "annotation3")
+                .attr("x", 80)
+                .attr("y", 280)
+                .text("(Mouse over labels to see actual number)")
+
+            svg3.append("text")
+                .attr("class", "annotation2")
+                .attr("x", 500)
+                .attr("y", 420)
+                .text("Though white people lost the biggest number")
+
+            svg3.append("text")
+                .attr("class", "annotation2")
+                .attr("x", 500)
+                .attr("y", 440)
+                .text(" of jobs, they actually were the least affected")
+
+            svg3.append("text")
+                .attr("class", "annotation2")
+                .attr("x", 500)
+                .attr("y", 460)
+                .text("in April 2020 considering the population.")
+
+            let baseline = svg3.append("line")
+                .attr("x1", margin.left)
+                .attr("x2", width + margin.left)
+                .attr("y1", y(0))
+                .attr("y2", y(0))
+                .style("stroke", "#666")
+                .style("stroke-width", "2px")
+
+
+            const container = d3.select('#scrolly-overlay');
+            const stepSel = container.selectAll('.step'); //final all the step nodes
+
+            function updateChart_race(state) {
+                const sel = container.select(by = state);
+
+                let line = d3.line() //define a line function
+                    .defined(d => !isNaN(d.pct_change))
+                    .x(function (d) { return x(d.date) }) //accessing date 
+                    .y(function (d) { return y(d.pct_change) }) //accesssing value 
+
+                let line_path = svg3
+                    // .append("g")
+                    .selectAll(".line")
+                    .data(grouped_data_race)
+                    .join("path")
+                    .attr("class", function (d) { return "line " + d[0] })
+                    .attr("d", function (d) { return line(d[1]) })
+                    .style("fill", "none")
+                    .style("stroke", d => {
+                        if (d[0] == "hispanic") {
+                            return "#88C542"
+                        } else if (d[0] == "asian") {
+                            return "#367ABD"
+                        } else if (d[0] == "black") {
+                            return "#EC4A94"
+                        } else {
+                            return "#F3A530"
+                        }
+                    })
+                    .style("stroke-width", 3)
+
+                let hispanic = svg3.selectAll(".sexlabel1")
+                    .attr("class", "racelabel")
+                    .attr("x", 800)
+                    .attr("y", 120)
+                    .text("HISPANIC")
+                    .style("font-size", 15)
+                    .attr("fill", "#88C542")
+
+                let asian = svg3.selectAll(".sexlabel2")
+                    .attr("class", "racelabel")
+                    .attr("x", 800)
+                    .attr("y", 80)
+                    .text("ASIAN")
+                    .style("font-size", 15)
+                    .attr("fill", "#367ABD")
+
+                let black = svg3.append("text")
+                    .attr("class", "racelabel2")
+                    .attr("x", 800)
+                    .attr("y", 200)
+                    .text("BLACK")
+                    .style("font-size", 15)
+                    .attr("fill", "#EC4A94")
+
+                let white = svg3.append("text")
+                    .attr("class", "racelabel2")
+                    .attr("x", 800)
+                    .attr("y", 155)
+                    .text("WHITE")
+                    .style("font-size", 15)
+                    .attr("fill", "#F3A530")
+
+                svg3.selectAll(".annotation4")
+                    .attr("class", "annotation2")
+                    .attr("x", 500)
+                    .attr("y", 420)
+                    .text("Though white people lost the biggest number")
+
+                svg3.append("text")
+                    .attr("class", "annotation2")
+                    .attr("x", 500)
+                    .attr("y", 440)
+                    .text(" of jobs, they actually were the least affected")
+
+                svg3.append("text")
+                    .attr("class", "annotation2")
+                    .attr("x", 500)
+                    .attr("y", 460)
+                    .text("in April 2020 considering the population.")
+
+
+
+                let popup = d3.select(".pop-up2")
+
+                hispanic.on("mouseover", (event, d) => {
+
+                    hispanic
+                        .style("font-size", 30)
+                        .style("font-weight", 800)
+
+                    let lang = "In April 2020, the Hispanic suffered from an extreme job loss of 17.82%"
+
+                    popup
+                        .style("opacity", 1)
+                        .style("left", (event.x - 500) + "px")
+                        .style("top", (event.y - 400) + "px")
+                        .html(lang)
+
+                    svg3.append('circle')
+                        .attr("class", "circle")
+                        .attr('cx', 472)
+                        .attr('cy', 525)
+                        .attr('r', '6px')
+                        .style('fill', '#88C542');
+
+                    svg3.selectAll(".hispanic")
+                        .style("stroke-width", 6)
+                        .style("opacity", 1)
+                })
+
+                hispanic.on("mouseout", (event, d) => {
+                    hispanic
+                        .style("font-size", 15)
+                        .style("font-weight", 400)
+
+                    popup
+                        .style("opacity", 0)
+
+                    svg3.selectAll(".circle")
+                        .style("opacity", 0)
+
+                    svg3.selectAll(".hispanic")
+                        .style("stroke-width", 3)
+                        .style("opacity", .5)
+                })
+
+                black.on("mouseover", (event, d) => {
+
+                    black
+                        .style("font-size", 30)
+                        .style("font-weight", 800)
+
+                    let lang = "In April 2020, the Black suffered from an extreme job loss of 14.57%"
+
+                    popup
+                        .style("opacity", 1)
+                        .style("left", (event.x - 500) + "px")
+                        .style("top", (event.y - 400) + "px")
+                        .html(lang)
+
+                    svg3.append('circle')
+                        .attr("class", "circle")
+                        .attr('cx', 472)
+                        .attr('cy', 460)
+                        .attr('r', '6px')
+                        .style('fill', '#EC4A94');
+
+                    svg3.selectAll(".black")
+                        .style("stroke-width", 6)
+                        .style("opacity", 1)
+                })
+
+                black.on("mouseout", (event, d) => {
+                    black
+                        .style("font-size", 15)
+                        .style("font-weight", 400)
+
+                    popup
+                        .style("opacity", 0)
+
+                    svg3.selectAll(".circle")
+                        .style("opacity", 0)
+
+                    svg3.selectAll(".black")
+                        .style("stroke-width", 3)
+                        .style("opacity", .5)
+                })
+
+                asian.on("mouseover", (event, d) => {
+
+                    asian
+                        .style("font-size", 30)
+                        .style("font-weight", 800)
+
+                    let lang = "In April 2020, the Asian suffered from an extreme job loss of 15.73%"
+
+                    popup
+                        .style("opacity", 1)
+                        .style("left", (event.x - 500) + "px")
+                        .style("top", (event.y - 400) + "px")
+                        .html(lang)
+
+                    svg3.append('circle')
+                        .attr("class", "circle")
+                        .attr('cx', 472)
+                        .attr('cy', 490)
+                        .attr('r', '6px')
+                        .style('fill', '#367ABD');
+
+                    svg3.selectAll(".asian")
+                        .style("stroke-width", 6)
+                        .style("opacity", 1)
+                })
+
+                asian.on("mouseout", (event, d) => {
+                    asian
+                        .style("font-size", 15)
+                        .style("font-weight", 400)
+
+                    popup
+                        .style("opacity", 0)
+
+                    svg3.selectAll(".circle")
+                        .style("opacity", 0)
+
+                    svg3.selectAll(".asian")
+                        .style("stroke-width", 3)
+                        .style("opacity", .5)
+                })
+
+                white.on("mouseover", (event, d) => {
+
+                    white
+                        .style("font-size", 30)
+                        .style("font-weight", 800)
+
+                    let lang = "In April 2020, the White suffered from an extreme job loss of 13.74%"
+
+                    popup
+                        .style("opacity", 1)
+                        .style("left", (event.x - 500) + "px")
+                        .style("top", (event.y - 400) + "px")
+                        .html(lang)
+
+                    svg3.append('circle')
+                        .attr("class", "circle")
+                        .attr('cx', 472)
+                        .attr('cy', 450)
+                        .attr('r', '6px')
+                        .style('fill', '#F3A530');
+
+                    svg3.selectAll(".white")
+                        .style("stroke-width", 6)
+                        .style("opacity", 1)
+                })
+
+                white.on("mouseout", (event, d) => {
+                    white
+                        .style("font-size", 15)
+                        .style("font-weight", 400)
+
+                    popup
+                        .style("opacity", 0)
+
+                    svg3.selectAll(".circle")
+                        .style("opacity", 0)
+
+                    svg3.selectAll(".white")
+                        .style("stroke-width", 3)
+                        .style("opacity", .5)
+                })
+            }
+
+            function updateChart_sex(state) {
+                const sel = container.select(by = state);
+                console.log(state)
+
+                let line = d3.line() //define a line function
+                    .defined(d => !isNaN(d.pct_change))
+                    .x(function (d) { return x(d.date) }) //accessing date 
+                    .y(function (d) { return y(d.pct_change) }) //accesssing value 
+
+                let line_path = svg3
+                    // .append("g")
+                    .selectAll(".line")
+                    .data(grouped_data_sex)
+                    .join("path")
+                    .attr("class", function (d) { return "line " + d[0] })
+                    .attr("d", function (d) { return line(d[1]) })
+                    .style("fill", "none")
+                    .style("stroke", d => { if (d[0] == "men") { return "#70261A" } else { return "#479983" } })
+                    .style("stroke-width", 3)
+
+                let male = svg3.selectAll(".racelabel")
+                    .attr("class", "sexlabel1")
+                    .attr("x", 800)
+                    .attr("y", 160)
+                    .text("MALE")
+                    .style("font-size", 15)
+                    .attr("fill", "#70261A")
+
+                let female = svg3.selectAll(".racelabel2")
+                    .attr("class", "sexlabel2")
+                    .attr("x", 800)
+                    .attr("y", 130)
+                    .text("FEMALE")
+                    .style("font-size", 15)
+                    .attr("fill", "#479983")
+
+                svg3.selectAll(".annotation2")
+                    .attr("class", "annotation4")
+                    .attr("x", 500)
+                    .attr("y", 420)
+                    .text("Compared with men, women suffered ")
+
+                svg3.append("text")
+                    .attr("class", "annotation4")
+                    .attr("x", 500)
+                    .attr("y", 440)
+                    .text("from a more severe loss of job.")
+
+
+                let popup = d3.select(".pop-up2")
+
+                male.on("mouseover", (event, d) => {
+
+                    male
+                        .style("font-size", 30)
+                        .style("font-weight", 800)
+
+                    let lang = "In April 2020, the male suffered from an extreme job loss of 12.48%"
+
+                    popup
+                        .style("opacity", 1)
+                        .style("left", (event.x - 500) + "px")
+                        .style("top", (event.y - 200) + "px")
+                        .html(lang)
+
+                    svg3.append('circle')
+                        .attr("class", "circle")
+                        .attr('cx', 472)
+                        .attr('cy', 415)
+                        .attr('r', '6px')
+                        .style('fill', '#70261A');
+
+                    svg3.selectAll(".men")
+                        .style("stroke-width", 6)
+                        .style("opacity", 1)
+                })
+
+                male.on("mouseout", (event, d) => {
+                    male
+                        .style("font-size", 15)
+                        .style("font-weight", 400)
+
+                    popup
+                        .style("opacity", 0)
+
+                    svg3.selectAll(".circle")
+                        .style("opacity", 0)
+
+                    svg3.selectAll(".men")
+                        .style("stroke-width", 3)
+                        .style("opacity", .5)
+                })
+
+                female.on("mouseover", (event, d) => {
+
+                    female
+                        .style("font-size", 30)
+                        .style("font-weight", 800)
+
+                    let lang = "In April 2020, the female suffered from an extreme job loss of 16.96%"
+
+                    popup
+                        .style("opacity", 1)
+                        .style("left", (event.x - 500) + "px")
+                        .style("top", (event.y - 400) + "px")
+                        .html(lang)
+
+                    svg3.append('circle')
+                        .attr("class", "circle")
+                        .attr('cx', 472)
+                        .attr('cy', 510)
+                        .attr('r', '6px')
+                        .style('fill', '#479983');
+
+                    svg3.selectAll(".women")
+                        .style("stroke-width", 6)
+                        .style("opacity", 1)
+                })
+
+                female.on("mouseout", (event, d) => {
+                    female
+                        .style("font-size", 15)
+                        .style("font-weight", 400)
+
+                    popup
+                        .style("opacity", 0)
+
+                    svg3.selectAll(".circle")
+                        .style("opacity", 0)
+
+                    svg3.selectAll(".women")
+                        .style("stroke-width", 3)
+                        .style("opacity", .5)
+                })
+            }
+
+            function init() {
+
+                enterView({ //our main view function
+                    selector: stepSel.nodes(),
+                    offset: 0.8, //when the slide is 50% away then trigger your chart
+                    enter: el => { //what's supposed to happen when the slide enters?
+                        updateChart_sex("sex");
+                    },
+                    exit: el => { //what's supposed to happen when the slide exits?
+                        updateChart_race("race");
+                    }
+
+                });
+
+            }
+            init();
+        })
+    })
+
+
+
+
+
+
+</script>
