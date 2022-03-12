@@ -15,13 +15,19 @@
         }
 
         .subtitle {
-            margin: 50px 50px 50px 0px;
+            margin: 0px 50px 0px 0px;
             font-weight: 400;
             font-size: 32px;
         }
 
+        .subtitle2 {
+            margin: 0px 50px 50px 0px;
+            font-weight: 400;
+            font-size: 20px;
+        }
+
         .subtitlechange {
-            margin: 50px 50px 50px 0px;
+            margin: 0px 50px 0px 0px;
             font-weight: 400;
             font-size: 32px;
         }
@@ -86,10 +92,18 @@
             font-weight: 800;
             fill: #333;
             font-family: sans-serif;
+            font-size: 14px;
         }
 
         .xlabel {
             /* font-weight: 800; */
+            font-size: 14px;
+            fill: #333;
+            font-family: sans-serif;
+        }
+
+        .xlabel2 {
+            font-weight: 800;
             font-size: 14px;
             fill: #333;
             font-family: sans-serif;
@@ -258,7 +272,7 @@
 
         #scrolly-overlay .scrolly article .step p {
             margin: 0;
-            padding: 1rem;
+            padding: 0.2rem;
             text-align: center;
             font-weight: 400;
             background-color: #a8a3a3;
@@ -405,11 +419,17 @@
     </div>
     <p style="text-align:center;" , class="subtitlechange">
 
-        Percentage Change of<span class='highlight'> April 2020</span>
-
-
-
+        Percentage Change of Employment in<span class='highlight'> April 2020</span>
     </p>
+
+    <p style="text-align:center;" , class="subtitle">
+        By Different Age Group
+    </p>
+    <p style="text-align:center;" , class="subtitle2">
+        (Compared with Employment in Feburary 2019)
+    </p>
+
+
     <div style="text-align:center;" , class="secondsvg">
         <svg>
 
@@ -639,7 +659,7 @@
         svg.append("text")
             .attr("class", "annotation2")
             .attr("x", 490)
-            .attr("y", 125)
+            .attr("y", 130)
             .text("Regarding the number, white people")
 
         svg.append("text")
@@ -647,6 +667,36 @@
             .attr("x", 490)
             .attr("y", 150)
             .text("suffered from most severe job losses.")
+
+        svg.append("text")
+            .attr("class", "annotation2")
+            .attr("x", 490)
+            .attr("y", 280)
+            .text("Men and women seems to suffer from")
+
+        svg.append("text")
+            .attr("class", "annotation2")
+            .attr("x", 490)
+            .attr("y", 300)
+            .text("the same impact as shown in the")
+
+        svg.append("text")
+            .attr("class", "annotation2")
+            .attr("x", 490)
+            .attr("y", 320)
+            .text("graph, but a different story is below.")
+
+        svg.append("text")
+            .attr("class", "annotation2")
+            .attr("x", 490)
+            .attr("y", 410)
+            .text("The number of colored workers seems to")
+
+        svg.append("text")
+            .attr("class", "annotation2")
+            .attr("x", 490)
+            .attr("y", 430)
+            .text("change only mildly, but wait a minute.")
 
         let popup = d3.select(".pop-up")
 
@@ -1290,20 +1340,20 @@
             svg3.append("text")
                 .attr("class", "annotation2")
                 .attr("x", 500)
-                .attr("y", 420)
-                .text("Though white people lost the biggest number")
+                .attr("y", 300)
+                .text("Though white people lost the biggest number of jobs, they")
 
             svg3.append("text")
                 .attr("class", "annotation2")
                 .attr("x", 500)
-                .attr("y", 440)
-                .text(" of jobs, they actually were the least affected")
+                .attr("y", 320)
+                .text("actually were the least affected in April 2020 considering")
 
             svg3.append("text")
                 .attr("class", "annotation2")
                 .attr("x", 500)
-                .attr("y", 460)
-                .text("in April 2020 considering the population.")
+                .attr("y", 340)
+                .text("the population, compared with the colored peers.")
 
             let baseline = svg3.append("line")
                 .attr("x1", margin.left)
@@ -1381,20 +1431,20 @@
                 svg3.selectAll(".annotation4")
                     .attr("class", "annotation2")
                     .attr("x", 500)
-                    .attr("y", 420)
-                    .text("Though white people lost the biggest number")
+                    .attr("y", 300)
+                    .text("Though white people lost the biggest number of jobs, they")
 
                 svg3.append("text")
                     .attr("class", "annotation2")
                     .attr("x", 500)
-                    .attr("y", 440)
-                    .text(" of jobs, they actually were the least affected")
+                    .attr("y", 320)
+                    .text("actually were the least affected in April 2020 considering")
 
                 svg3.append("text")
                     .attr("class", "annotation2")
                     .attr("x", 500)
-                    .attr("y", 460)
-                    .text("in April 2020 considering the population.")
+                    .attr("y", 340)
+                    .text("the population, compared with the colored peers.")
 
 
 
@@ -1609,13 +1659,19 @@
                     .attr("class", "annotation4")
                     .attr("x", 500)
                     .attr("y", 420)
-                    .text("Compared with men, women suffered ")
+                    .text("Compared with men, women suffered from a more")
 
                 svg3.append("text")
                     .attr("class", "annotation4")
                     .attr("x", 500)
                     .attr("y", 440)
-                    .text("from a more severe loss of job.")
+                    .text("severe loss of job, which might be driven by the")
+
+                svg3.append("text")
+                    .attr("class", "annotation4")
+                    .attr("x", 500)
+                    .attr("y", 460)
+                    .text("need to care for children during the pandemic")
 
 
                 let popup = d3.select(".pop-up2")
@@ -1709,7 +1765,7 @@
 
                 enterView({ //our main view function
                     selector: stepSel.nodes(),
-                    offset: 0.8, //when the slide is 50% away then trigger your chart
+                    offset: 0.9, //when the slide is 50% away then trigger your chart
                     enter: el => { //what's supposed to happen when the slide enters?
                         updateChart_sex("sex");
                     },
@@ -1778,13 +1834,10 @@
         let yAxisSettings = d3.axisLeft(y)
             .tickSize(-width)
             .tickPadding(10)
-            .tickValues([0, -5, -10, -15, -20, -25, -30])
+            .tickValues([-5, -10, -15, -20, -25, -30])
             .tickFormat(function (d) { return parseInt(d, 10) + "%"; })
 
 
-
-
-        //adding to the axes to our chart
         let xAxisTicks = svg2.append("g")
             .attr("class", "x axis") //give each axis a class
             .call(xAxisSettings)
@@ -1801,6 +1854,105 @@
         let bar;
         let hed = d3.select(".subtitlechange")
 
+        svg2.append("text")
+            .attr("class", "annotation4")
+            .attr("x", 150)
+            .attr("y", 330)
+            .text("Employers in 20-24 age group were most")
+
+        svg2.append("text")
+            .attr("class", "annotation4")
+            .attr("x", 150)
+            .attr("y", 350)
+            .text("affected at the beginning of the pandemic.")
+
+        svg2.append("text")
+            .attr("class", "annotation4")
+            .attr("x", 100)
+            .attr("y", 340)
+            .text("<---")
+
+        svg2.append("text")
+            .attr("class", "ylabel")
+            .attr("x", 840)
+            .attr("y", -16)
+            .text("AGE GROUP")
+
+        svg2.append("text")
+            .attr("class", "xlabel2")
+            .attr("x", -185)
+            .attr("y", 270)
+            .text("PERCENTAGE CHANGE")
+
+        svg2.append("text")
+            .attr("class", "xlabel2")
+            .attr("x", -170)
+            .attr("y", 290)
+            .text("OF EMPLOYMENT")
+
+        svg2.append("line")
+            .attr("class", "line")
+            .attr("x1", '30')
+            .attr("y1", '10')
+            .attr("x2", '830')
+            .attr("y2", '10')
+            .style("stroke", "#6c757d")
+            .style("stroke-width", "2.5px")
+
+        svg2.append("line")
+            .attr("class", "line")
+            .attr("x1", '30')
+            .attr("y1", '290')
+            .attr("x2", '830')
+            .attr("y2", '290')
+            .style("stroke", "#6c757d")
+            .style("stroke-width", "2.5px")
+
+        svg2.append("text")
+            .attr("class", "xlabel2")
+            .attr("x", -105)
+            .attr("y", 15)
+            .text("Prepandemic Level")
+
+        svg2.append("text")
+            .attr("class", "xlabel2")
+            .attr("x", 840)
+            .attr("y", 285)
+            .text("Average of percentage")
+
+        svg2.append("text")
+            .attr("class", "xlabel2")
+            .attr("x", 840)
+            .attr("y", 305)
+            .text("change in April 2020")
+
+        svg2.append("text")
+            .attr("class", "annotation2")
+            .attr("x", 370)
+            .attr("y", 433)
+            .text("Workers oldest and youngest experienced outsize losses.")
+
+        svg2.append("text")
+            .attr("class", "annotation2")
+            .attr("x", 370)
+            .attr("y", 453)
+            .text("Younger people lose work early, but they have regained")
+
+        svg2.append("text")
+            .attr("class", "annotation2")
+            .attr("x", 370)
+            .attr("y", 473)
+            .text("jobs more rapidly. Older workers recovered slowly as they")
+
+        svg2.append("text")
+            .attr("class", "annotation2")
+            .attr("x", 370)
+            .attr("y", 493)
+            .text("worried increasing their exposure to the coronavirus.")
+
+
+
+
         bars
             .selectAll(".bar")
             .data(datapc, d => d.key)
@@ -1808,43 +1960,107 @@
             .attr("class", "bar")
             .attr("y", d => y(0))
             .attr("height", d => y(d.pct_change) - y(0))
-            .attr("x", d => x(d.key)+30)
+            .attr("x", d => x(d.key) + 30)
             .attr("width", x.bandwidth)
-            .style("fill", "#ACB0FA")
+            .style("fill", "#7A7AFA")
 
-            function update() {
+        function update() {
             console.log("update")
             console.log("old year state " + state);
 
             if (state == "peak_change") {
                 state = "last_month"
-                dance(datalm)
-                hed.html("Percentage Change of<span class='highlight'> Last Month</span>")
+                bars
+                    .selectAll(".bar")
+                    .data(datalm, d => d.key)
+                    .join("rect")
+                    .attr("class", "bar")
+                    .transition()
+                    .duration(2000)
+                    .ease(d3.easeCubicOut)
+                    .attr("y", d => y(0))
+                    .attr("height", d => y(d.pct_change) - y(0))
+                    .attr("x", d => x(d.key) + 30)
+                    .attr("width", x.bandwidth)
+                    .style("fill", "#ACB0FA")
+
+                svg2.selectAll(".annotation4")
+                    .attr("class", "annotation3")
+                    .attr("x", 590)
+                    .attr("y", 200)
+                    .text("--->")
+
+                svg2.append("text")
+                    .attr("class", "annotation3")
+                    .attr("x", 260)
+                    .attr("y", 210)
+                    .text("in 55-64 age group were left most affected.")
+
+                svg2.append("text")
+                    .attr("class", "annotation3")
+                    .attr("x", 260)
+                    .attr("y", 190)
+                    .text("After 10 months of the pandemic, employers")
+
+                hed.html("Percentage Change of Employment in<span class='highlight'> Feburary 2021</span>")
 
             } else {
                 state = "peak_change"
-                dance(datapc)
-                hed.html("Percentage Change of<span class='highlight'> April 2020</span>")
+                bars
+                    .selectAll(".bar")
+                    .data(datapc, d => d.key)
+                    .join("rect")
+                    .attr("class", "bar")
+                    .transition()
+                    .duration(2000)
+                    .ease(d3.easeCubicOut)
+                    .attr("y", d => y(0))
+                    .attr("height", d => y(d.pct_change) - y(0))
+                    .attr("x", d => x(d.key) + 30)
+                    .attr("width", x.bandwidth)
+                    .style("fill", "#7A7AFA")
+
+                svg2.selectAll(".annotation3")
+                    .attr("class", "annotation4")
+                    .attr("x", 100)
+                    .attr("y", 340)
+                    .text("<---")
+
+
+                svg2.append("text")
+                    .attr("class", "annotation4")
+                    .attr("x", 150)
+                    .attr("y", 350)
+                    .text("affected at the beginning of the pandemic.")
+
+                svg2.append("text")
+                    .attr("class", "annotation4")
+                    .attr("x", 150)
+                    .attr("y", 330)
+                    .text("Employers in 20-24 age group were most")
+
+
+                hed.html("Percentage Change of Employment in<span class='highlight'> April 2020</span>")
             }
             console.log("new year state " + state);
         }
 
-        function dance(filtered_data) {
-            bars
-                .selectAll(".bar")
-                .data(filtered_data, d => d.key)
-                .join("rect")
-                .attr("class", "bar")
-                .transition()
-                .duration(2000)
-                .ease(d3.easeCubicOut)
-                .attr("y", d => y(0))
-                .attr("height", d => y(d.pct_change) - y(0))
-                .attr("x", d => x(d.key)+30)
-                .attr("width", x.bandwidth)
-                .style("fill", "#ACB0FA")
+        // function dance(filtered_data) {
+        //     bars
+        //         .selectAll(".bar")
+        //         .data(filtered_data, d => d.key)
+        //         .join("rect")
+        //         .attr("class", "bar")
+        //         .transition()
+        //         .duration(2000)
+        //         .ease(d3.easeCubicOut)
+        //         .attr("y", d => y(0))
+        //         .attr("height", d => y(d.pct_change) - y(0))
+        //         .attr("x", d => x(d.key)+30)
+        //         .attr("width", x.bandwidth)
+        //         .style("fill", "#466EC7")
 
-        }
+        // }
 
         var timer = d3.interval(update, 4000) //in milliseconds
     })
